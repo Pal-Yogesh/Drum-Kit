@@ -10,13 +10,10 @@
 // });
 
 
-var numberOfDrumButtons = document.querySelectorAll("button").length;
+// it is for the detecting button press on web page
+var numberOfDrumButtons = document.querySelectorAll(".drum").length;
     for(var i=0;i<numberOfDrumButtons;i++){
-        document.querySelectorAll("button")[i].addEventListener("click", handleclick);
-    }
-
-   
-    function handleclick(){
+        document.querySelectorAll(".drum")[i].addEventListener("click", function (){
         
         function randomColors() {
             return '#' + Math.floor(Math.random() * 16777215).toString(16);
@@ -24,9 +21,26 @@ var numberOfDrumButtons = document.querySelectorAll("button").length;
         this.style.color = randomColors();
 
         
-    var buttonInnerHTML = this.innerHTML;
+        var buttonInnerHTML = this.innerHTML;
+        makesound(buttonInnerHTML);
+        buttonAnimation(buttonInnerHTML);
 
-    switch(buttonInnerHTML){
+    });
+}
+
+
+// it is for the detecting  keyboard button press 
+
+document.addEventListener("keypress", function(event){
+    makesound(event.key);
+    buttonAnimation(event.key);
+
+});
+
+
+function makesound(key){
+    
+    switch(key){
         case "w": var crash = new Audio('sounds/crash.mp3');
         crash.play();
         break;
@@ -55,7 +69,20 @@ var numberOfDrumButtons = document.querySelectorAll("button").length;
         tom4.play();
         break;
         
-        default: console.log(buttonInnerHTML);
+        default: console.log(key);
 
     }
 }
+
+function buttonAnimation(currentKey) {
+
+    var activeButton = document.querySelector("." + currentKey);
+  
+    activeButton.classList.add("pressed");
+  
+    setTimeout(function() {
+      activeButton.classList.remove("pressed");
+    }, 100);
+  
+  }
+  
